@@ -4,7 +4,7 @@
   "description": "standard login page",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "hao",
@@ -17,8 +17,5 @@
     "morgan": "^1.8.2",
     "mysql": "^2.14.1",
     "promise-mysql": "^3.0.2"
-  },
-  "devDependencies": {
-    "nodemon": "^1.11.0"
   }
 }

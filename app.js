@@ -19,7 +19,7 @@ app.get('/', function(req, res){
 
 //receive post request from front end api call and send response
 app.get('/signup', function(req, res){
-   res.send("signup!");
+   res.send("register!");
 });
 
 app.post('/signup', function(req, res){
