@@ -1,6 +1,6 @@
 'use strict';
-const bcrypt = require('bcrypt-as-promised');
-const HASH_ROUNDS = 10;
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 
 class Query {
@@ -8,34 +8,21 @@ class Query {
      this.conn = conn;
      }
 
-createUser(user) {
-  return bcrypt.hash(user.password, HASH_ROUNDS)
-  .then(hashedPassword => {
-           return this.conn.query('INSERT INTO users (email,username,password) VALUES (?, ?, ?)', [user.email, user.username, hashedPassword]);
-       })
-       .then(result => {
-           return result.insertId;
-       })
-       .catch(error => {
-           // Special error handling for duplicate entry
-           if (error.code === 'ER_DUP_ENTRY'){
-               throw new Error('A user with this username already exists');
-           }
-           else {
-               throw error;
-           }
-       });
+   createUser(user) {
+     console.log('this',this)
+      let that=this
+     //hash password
+     return bcrypt.hash(user.password, saltRounds).
+     then(function(hash) {
+      //  console.log('this2',that)
+       //insert info in data base
+        return that.conn.query('INSERT INTO user (email,username,password) VALUES (?, ?, ?)',
+        [user.email, user.username, hash ])
+     })
+     .then(result => {
+            return result.insertId;
+     });
 
+   }
 }
-
-  //  test(){
-  //    return this.conn.query(
-  //           `
-  //           desc user
-  //           `
-  //       );
-  // }
-
-}
-
 module.exports = Query;

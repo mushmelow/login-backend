@@ -46,17 +46,20 @@ app.get('/signup', function(req, res){
 
 
 app.post('/signup', function(req, res){
+
  // parse data and create a new object
   let body = req.body;
-  let userData = {
+  //console.log("body",body)
+  let user = {
 
     email: body.email,
     password: body.password,
     username: body.username
   };
-
-
-
+  query.createUser(user).then(function(data){
+   console.log(data)
+   return res.send("success")
+  });
 });
 
 app.get('/login', function (req, res){
@@ -70,5 +73,3 @@ app.post('/login', function (req,res){
 
 
 app.listen(3000,console.log("listen to port 3000"));
-
-initDb()
