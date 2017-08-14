@@ -8,6 +8,7 @@ const morgan= require("morgan");
 const session= require("express-session");
 const Query = require('./Query');
 const mysql = require('promise-mysql');
+const cors = require('cors');
 //
 
 //basic setup for express server
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
   //  console.log(data);
   // });
 
+app.use(cors())
 
 
 app.get('/', function(req, res){
@@ -41,7 +43,7 @@ app.get('/', function(req, res){
 
 //receive post request from front end api call and send response
 app.get('/signup', function(req, res){
-
+  res.send("signup page")
 });
 
 
@@ -56,20 +58,24 @@ app.post('/signup', function(req, res){
     password: body.password,
     username: body.username
   };
-  query.createUser(user).then(function(data){
+  query.createUser(user)
+  .then(function(data){
    console.log(data)
-   return res.send("success")
+   res.send("success")
+  })
+  .catch(err => {
+    console.log(err, "signup error")
+    res.send(err)
   });
 });
 
-app.get('/login', function (req, res){
+app.get(
+  '/login', function (req, res){
   res.send("login page")
 })
 
 app.post('/login', function (req,res){
   res.send("post login!");
 })
-
-
 
 app.listen(3000,console.log("listen to port 3000"));
